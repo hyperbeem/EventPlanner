@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Event_Planner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Title="MainWindow" Height="720" Width="1280" Background="#FFF9F9F9" Loaded="Window_Loaded">
+    <Grid Background="#FFE2E2E2">
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New"/>
+                    <MenuItem x:Name="Menu_Close" Header="_Close" Click="Menu_Close_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Objects">
+                    <MenuItem x:Name="HexagonButton" Header="_Hexagon" Click="HexagonButton_Click"/>
+                    <MenuItem x:Name="PentagonButton" Header="_Pentagon" Click="PentagonButton_Click"/>
+                    <MenuItem x:Name="RectangleButton" Header="_Rectangle" Click="RectangleButton_Click"/>
+                    <MenuItem x:Name="SquareButton" Header="_Square" Click="SquareButton_Click"/>
+                    <MenuItem x:Name="TriangleButton" Header="_Triangle" Click="TriangleButton_Click"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <Canvas x:Name="DrawingCanvas" Margin="10,32,10,30" Background="White" MouseLeftButtonDown="DrawingCanvas_MouseLeftButtonDown" MouseLeftButtonUp="DrawingCanvas_MouseLeftButtonUp" MouseMove="DrawingCanvas_MouseMove" MouseRightButtonDown="DrawingCanvas_MouseRightButtonDown" MouseRightButtonUp="DrawingCanvas_MouseRightButtonUp">
+
+        </Canvas>
+        <WrapPanel Margin="10,0" Height="25" VerticalAlignment="Bottom">
+            <Label x:Name="Static_ObjectNameLable" Content="Name:"/>
+            <Label x:Name="Static_ObjectName" Content=""/>
+        </WrapPanel>
     </Grid>
 </Window>
