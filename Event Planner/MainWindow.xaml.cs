@@ -15,7 +15,10 @@ using System.Windows.Shapes;
 
 using EPlib.Application.Preferences;
 using EPlib.Drawable;
+using EPlib.Util;
 using EP = EPlib.Drawable.Shapes;
+using cIO = EPlib.Application.InOut;
+using Microsoft.Win32;
 
 namespace Event_Planner
 {
@@ -214,29 +217,18 @@ namespace Event_Planner
         private void UpdateProperties(InteractiveElement IE)
         {
             // Name
-            PropTBoxName.Text = IE.Name;
+            PropTBoxName.Text = IE.GetName;
 
             // Position
             PropTBoxX.Text = IE.Point.X.ToString();
             PropTBoxY.Text = IE.Point.Y.ToString();
 
             // Color
-            Color c = ExtractColor(IE.GetFill);
+            Color c = ColorHelper.ExtractColor(IE.GetFill);
             PropBoxColor.Fill = IE.GetFill;
             PropTBoxColorR.Text = c.R.ToString();
             PropTBoxColorG.Text = c.G.ToString();
             PropTBoxColorB.Text = c.B.ToString();
-        }
-
-        private Color ExtractColor(Brush br)
-        {
-            byte r = ((Color)br.GetValue(SolidColorBrush.ColorProperty)).R;
-            byte g = ((Color)br.GetValue(SolidColorBrush.ColorProperty)).B;
-            byte b = ((Color)br.GetValue(SolidColorBrush.ColorProperty)).G;
-
-            Color c = Color.FromRgb(r, g, b);
-
-            return c;
         }
 
         private void PropTBoxX_KeyUp(object sender, KeyEventArgs e)
@@ -292,6 +284,7 @@ namespace Event_Planner
                 {
                     _IE.GetFill = new SolidColorBrush(Color.FromRgb(r, g, b));
                     UpdateProperties(_IE);
+                    _IE.InvalidateVisual();
                 }
             }
         }
@@ -325,6 +318,48 @@ namespace Event_Planner
                 if (_IE != null & e.Key == Key.Delete)
                 {
                     DrawingCanvas.Children.Remove(_IE);
+                }
+            }
+        }
+
+        private void Menu_Save_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
+
+            sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            sfd.Filter = "XML file (*.xml)|*.xml";
+
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = sfd.FileName;
+                List<UIElement> toSave = new List<UIElement>();
+
+                foreach (UIElement ch in DrawingCanvas.Children)
+                {
+                    toSave.Add(ch);
+                }
+
+                cIO.StreamXML.WriteXMLIElements(path, toSave);
+            }
+        }
+
+        private void Menu_Open_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+            ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            ofd.Filter = "XML file (*.xml)|*.xml";
+
+            if(ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = ofd.FileName;
+                List<SerialIE> processList = cIO.StreamXML.ReadXMLIElements(path);
+
+                if (DrawingCanvas.Children.Count != 0)
+                    DrawingCanvas.Children.Clear();
+
+                foreach(SerialIE s in processList)
+                {
+                    DrawingCanvas.Children.Add(s.Load());
                 }
             }
         }

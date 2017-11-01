@@ -12,8 +12,10 @@
     <Grid Background="#FFE2E2E2">
         <DockPanel>
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_File">
+                <MenuItem x:Name="Menu_Open" Header="_File" Click="Menu_Open_Click">
                     <MenuItem Header="_New"/>
+                    <MenuItem Header="_Open"/>
+                    <MenuItem x:Name="Menu_Save" Header="_Save" Click="Menu_Save_Click"/>
                     <MenuItem x:Name="Menu_Close" Header="_Close" Click="Menu_Close_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Canvas">

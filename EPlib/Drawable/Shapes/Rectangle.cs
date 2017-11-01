@@ -13,6 +13,8 @@ namespace EPlib.Drawable.Shapes
     {
         public Rectangle() : base()
         {
+            _ThisType = IElementType.Rectangle;
+
             using (StreamGeometryContext gC = _Geo.Open())
             {
                 gC.BeginFigure(new Point(-10.0d, -15.0d), true, true);

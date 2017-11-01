@@ -14,6 +14,8 @@ namespace EPlib.Drawable.Shapes
     {
         public Pentagon() : base()
         {
+            _ThisType = IElementType.Pentagon;
+
             using (StreamGeometryContext gC = _Geo.Open())
             {
                 double width = 20d;

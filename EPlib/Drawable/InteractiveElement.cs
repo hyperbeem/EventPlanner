@@ -24,6 +24,12 @@ namespace EPlib.Drawable
             Triangle
         }
 
+        protected IElementType _ThisType;
+        public string GetThisType
+        {
+            get { return _ThisType.ToString(); }
+        }
+
         protected StreamGeometry _Geo;
         public StreamGeometry GetGeometry
         {
@@ -34,7 +40,19 @@ namespace EPlib.Drawable
         public Point Point { get; set; }
 
         protected PointCollection _PC;
+        public PointCollection GetPointCollection
+        {
+            get { return _PC; }
+            set { _PC = value; }
+        }
+
         protected Pen _Stroke;
+        public Pen GetStroke
+        {
+            get { return _Stroke; }
+            set { _Stroke = value; }
+        }
+
         protected Brush _Fill;
         public Brush GetFill
         {
@@ -43,11 +61,19 @@ namespace EPlib.Drawable
         }
 
         protected static long _Count;
+        public long GetCount
+        {
+            get { return _Count; }
+            set { _Count = value; }
+        }
+
         protected String _Name;
-        public string Name
+        public string GetName
         {
             get { return _Name; }
+            set { _Name = value; }
         }
+
 
         public InteractiveElement()
         {
@@ -56,6 +82,11 @@ namespace EPlib.Drawable
             _Geo = new StreamGeometry();
             
             _Name = "";
+        }
+
+        public InteractiveElement(StreamGeometry geometry, Pen stroke, Brush brush, String name)
+        {
+
         }
 
         protected override void OnRender(DrawingContext dc)
