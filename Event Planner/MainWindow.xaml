@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Title="MainWindow" Height="720" Width="1280" Background="#FFF9F9F9" Loaded="Window_Loaded">
+        Title="MainWindow" Height="720" Width="1280" Background="#FF292929" Loaded="Window_Loaded" KeyDown="Window_KeyDown">
+
     <Grid Background="#FFE2E2E2">
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -15,22 +16,70 @@
                     <MenuItem Header="_New"/>
                     <MenuItem x:Name="Menu_Close" Header="_Close" Click="Menu_Close_Click"/>
                 </MenuItem>
-                <MenuItem Header="_Objects">
-                    <MenuItem x:Name="HexagonButton" Header="_Hexagon" Click="HexagonButton_Click"/>
-                    <MenuItem x:Name="PentagonButton" Header="_Pentagon" Click="PentagonButton_Click"/>
-                    <MenuItem x:Name="RectangleButton" Header="_Rectangle" Click="RectangleButton_Click"/>
-                    <MenuItem x:Name="SquareButton" Header="_Square" Click="SquareButton_Click"/>
-                    <MenuItem x:Name="TriangleButton" Header="_Triangle" Click="TriangleButton_Click"/>
+                <MenuItem Header="_Canvas">
+                    <MenuItem Header="_Primitive">
+                        <MenuItem x:Name="HexagonButton" Header="_Hexagon" Click="HexagonButton_Click"/>
+                        <MenuItem x:Name="PentagonButton" Header="_Pentagon" Click="PentagonButton_Click"/>
+                        <MenuItem x:Name="RectangleButton" Header="_Rectangle" Click="RectangleButton_Click"/>
+                        <MenuItem x:Name="SquareButton" Header="_Square" Click="SquareButton_Click"/>
+                        <MenuItem x:Name="TriangleButton" Header="_Triangle" Click="TriangleButton_Click"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Tools">
+                    <MenuItem x:Name="GridToggleButton" Header="_Grid" IsCheckable="True" Checked="GridToggleButton_Checked" Unchecked="GridToggleButton_Unchecked"/>
                 </MenuItem>
             </Menu>
             <StackPanel></StackPanel>
         </DockPanel>
-        <Canvas x:Name="DrawingCanvas" Margin="10,32,10,30" Background="White" MouseLeftButtonDown="DrawingCanvas_MouseLeftButtonDown" MouseLeftButtonUp="DrawingCanvas_MouseLeftButtonUp" MouseMove="DrawingCanvas_MouseMove" MouseRightButtonDown="DrawingCanvas_MouseRightButtonDown" MouseRightButtonUp="DrawingCanvas_MouseRightButtonUp">
 
-        </Canvas>
+        <Canvas x:Name="DrawingCanvas" ClipToBounds="True" Grid.Column="0" Background="White" MouseLeftButtonDown="DrawingCanvas_MouseLeftButtonDown" MouseLeftButtonUp="DrawingCanvas_MouseLeftButtonUp" MouseMove="DrawingCanvas_MouseMove" MouseRightButtonDown="DrawingCanvas_MouseRightButtonDown" MouseRightButtonUp="DrawingCanvas_MouseRightButtonUp" Height="600" Grid.Row="7" Width="800" MouseWheel="DrawingCanvas_MouseWheel" Panel.ZIndex="-1" RenderTransformOrigin="0.5,0.5"/>
+
+        <Expander Margin="0,18,0,10" ExpandDirection="Left" IsExpanded="True" HorizontalAlignment="Right" Width="225">
+            <Expander.Header>
+                <TextBlock Text="Properties">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="90"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+            </Expander.Header>
+            <Grid Width="217">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35*"/>
+                    <RowDefinition Height="61*"/>
+                    <RowDefinition Height="118*"/>
+                    <RowDefinition Height="445*"/>
+                </Grid.RowDefinitions>
+
+                <TextBox x:Name="PropTBoxName" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Margin="10,10,0,0"/>
+
+                <Label x:Name="PropLableTransform" Content="Transform&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" FontWeight="Bold" Margin="0,6,0,0" Grid.Row="1" Width="68"/>
+
+                <Label x:Name="PropLableX" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,31,0,0" Grid.Row="1" Height="26" Width="17"/>
+                <TextBox x:Name="PropTBoxX" HorizontalAlignment="Left" Height="20" Margin="32,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Grid.Row="1" KeyUp="PropTBoxX_KeyUp"/>
+
+                <Label x:Name="PropLableY" Content="Y" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="92,31,0,0" Grid.Row="1" Height="26" Width="17"/>
+                <TextBox x:Name="PropTBoxY" HorizontalAlignment="Left" Height="20" Margin="114,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Grid.Row="1" KeyUp="PropTBoxY_KeyUp"/>
+
+                <Label x:Name="PropLableColor" Content="Color" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" Grid.Row="2" FontWeight="Bold" Height="26" Width="40"/>
+                <Rectangle x:Name="PropBoxColor" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="15" Stroke="Black" VerticalAlignment="Top" Width="15" Margin="42,16,0,0" Grid.Row="2"/>
+                <Label x:Name="PropLableColorR" Content="R" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,36,0,0" Grid.Row="2" Height="26" Width="17"/>
+                <TextBox x:Name="PropTBoxColorR" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Margin="32,40,0,0" Grid.Row="2" KeyUp="PropTBoxColorR_KeyUp"/>
+                <Label x:Name="PropLableColorB" Content="B" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,88,0,0" Grid.Row="2" Height="26" Width="17"/>
+                <TextBox x:Name="PropTBoxColorG" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Margin="32,66,0,0" Grid.Row="2" KeyUp="PropTBoxColorG_KeyUp"/>
+                <Label x:Name="PropLableColorG" Content="G" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,62,0,0" Grid.Row="2" Height="26" Width="18"/>
+                <TextBox x:Name="PropTBoxColorB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Margin="32,92,0,0" Grid.Row="2" KeyUp="PropTBoxColorB_KeyUp"/>
+
+
+
+
+
+            </Grid>
+        </Expander>
+
         <WrapPanel Margin="10,0" Height="25" VerticalAlignment="Bottom">
-            <Label x:Name="Static_ObjectNameLable" Content="Name:"/>
-            <Label x:Name="Static_ObjectName" Content=""/>
+            <Label x:Name="GridSetName" Content="Grid Snap Amount:"/>
+            <TextBox x:Name="GSnapTBox" Height="18" TextWrapping="Wrap" Width="60" KeyUp="GSnapTBox_KeyUp"/>
+
         </WrapPanel>
     </Grid>
 </Window>

@@ -34,5 +34,15 @@ namespace EPlib.Drawable.Shapes
 
             _Fill = new SolidColorBrush(Color.FromRgb(192, 0, 0));
         }
+
+        public void ChangeColor(Color color)
+        {
+            _Fill = new SolidColorBrush(color);
+        }
+
+        public void ChangeColor(byte r,byte g, byte b)
+        {
+            ChangeColor(Color.FromRgb(r, g, b));
+        }
     }
 }

@@ -43,6 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Preferences\PreferencesManager.cs" />
     <Compile Include="Drawable\InteractiveElement.cs" />
     <Compile Include="Drawable\Shapes\Hexagon.cs" />
     <Compile Include="Drawable\Shapes\Pentagon.cs" />

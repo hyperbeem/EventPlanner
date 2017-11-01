@@ -31,13 +31,19 @@ namespace EPlib.Drawable
             set { _Geo = value; }
         }
 
+        public Point Point { get; set; }
+
         protected PointCollection _PC;
         protected Pen _Stroke;
         protected Brush _Fill;
+        public Brush GetFill
+        {
+            get { return _Fill; }
+            set { _Fill = value; }
+        }
 
         protected static long _Count;
         protected String _Name;
-
         public string Name
         {
             get { return _Name; }
@@ -48,7 +54,7 @@ namespace EPlib.Drawable
             _Stroke = new Pen(Brushes.Black, 1);
             _Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
             _Geo = new StreamGeometry();
-
+            
             _Name = "";
         }
 
