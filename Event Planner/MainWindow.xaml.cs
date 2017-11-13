@@ -17,9 +17,9 @@ using EPlib.Application.Preferences;
 using EPlib.Drawable;
 using EPlib.Util;
 using EPlib.Util.Logs;
+using EPlib.Util.Interfaces;
 using EP = EPlib.Drawable.Shapes;
 using cIO = EPlib.Application.InOut;
-using Microsoft.Win32;
 
 namespace Event_Planner
 {
@@ -48,7 +48,7 @@ namespace Event_Planner
         {
             InitializeComponent();
             _CurrentType = InteractiveElement.IElementType.Square;
-            _PM = new PreferencesManager();
+            _PM = new PreferencesManager(logPath, new FileLogger(logPath), (int)DrawingCanvas.Width, (int)DrawingCanvas.Height);
         }
 
         private void DrawingCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -102,26 +102,22 @@ namespace Event_Planner
             {
                 if (_HitResult != null)
                 {
-                    if (_PM.OnGrid(_Current))
-                    {
-                        tt = new TranslateTransform(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y);
-                        _IE.RenderTransform = tt;
-                        _IE.Point = new Point(tt.X, tt.Y);
-                        UpdateProperties(_IE);
-                    }
+                    Point currentGrid = _PM.GetGridLocation(_Current);
+                    tt = new TranslateTransform(currentGrid.X, currentGrid.Y);
+                    _IE.RenderTransform = tt;
+                    _IE.Point = new Point(tt.X, tt.Y);
+                    UpdateProperties(_IE);
                 }
             }
             else
             {
                 if (_IE != null && _Placing)
                 {
-                    if (_PM.OnGrid(_Current))
-                    {
-                        tt = new TranslateTransform(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y);
-                        _IE.RenderTransform = tt;
-                        _IE.Point = new Point(tt.X, tt.Y);
-                        UpdateProperties(_IE);
-                    }
+                    Point currentGrid = _PM.GetGridLocation(_Current);
+                    tt = new TranslateTransform(currentGrid.X, currentGrid.Y);
+                    _IE.RenderTransform = tt;
+                    _IE.Point = new Point(tt.X, tt.Y);
+                    UpdateProperties(_IE);
                 }
             }
         }
@@ -343,7 +339,7 @@ namespace Event_Planner
                 {
                     toSave.Add(ch);
                 }
-                
+
                 cIO.StreamXML.WriteXMLIElements(path, toSave);
             }
         }
@@ -354,7 +350,7 @@ namespace Event_Planner
             ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             ofd.Filter = "XML file (*.xml)|*.xml";
 
-            if(ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string path = ofd.FileName;
                 List<SerialIE> processList = cIO.StreamXML.ReadXMLIElements(path);
@@ -362,7 +358,7 @@ namespace Event_Planner
                 if (DrawingCanvas.Children.Count != 0)
                     DrawingCanvas.Children.Clear();
 
-                foreach(SerialIE s in processList)
+                foreach (SerialIE s in processList)
                 {
                     DrawingCanvas.Children.Add(s.Load());
                 }
