@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EPlib.Util.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace EPlib.Drawable.Shapes
 {
     public class Pentagon : InteractiveElement
     {
-        public Pentagon() : base()
+        public Pentagon(ILogger logger) : base(logger)
         {
             _ThisType = IElementType.Pentagon;
 

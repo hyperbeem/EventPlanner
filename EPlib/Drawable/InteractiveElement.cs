@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 
+using EPlib.Util.Interfaces;
+
 namespace EPlib.Drawable
 {
     public abstract class InteractiveElement : UIElement
@@ -23,6 +25,8 @@ namespace EPlib.Drawable
             Square,
             Triangle
         }
+
+        protected readonly ILogger _logger;
 
         protected IElementType _ThisType;
         public string GetThisType
@@ -75,8 +79,9 @@ namespace EPlib.Drawable
         }
 
 
-        public InteractiveElement()
+        public InteractiveElement(ILogger logger)
         {
+            _logger = logger;
             _Stroke = new Pen(Brushes.Black, 1);
             _Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
             _Geo = new StreamGeometry();
@@ -87,6 +92,11 @@ namespace EPlib.Drawable
         public InteractiveElement(StreamGeometry geometry, Pen stroke, Brush brush, String name)
         {
 
+        }
+
+        public void LogCreation()
+        {
+            _logger.LogInfo("Shape " + GetThisType + " has been created.");
         }
 
         protected override void OnRender(DrawingContext dc)

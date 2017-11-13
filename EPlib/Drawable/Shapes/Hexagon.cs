@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
+using EPlib.Util.Interfaces;
+
 namespace EPlib.Drawable.Shapes
 {
     public class Hexagon : InteractiveElement
     {
-        public Hexagon() : base()
+        public Hexagon(ILogger logger) : base(logger)
         {
             _ThisType = IElementType.Hexagon;
 

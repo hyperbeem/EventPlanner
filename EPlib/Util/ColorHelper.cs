@@ -7,6 +7,7 @@ using System.Windows.Media;
 
 namespace EPlib.Util
 {
+
     public class ColorHelper
     {
         public static Color ExtractColor(Brush br)

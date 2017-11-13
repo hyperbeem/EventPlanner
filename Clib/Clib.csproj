@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D3452B19-0018-48D5-8C30-13DD78C50F33}</ProjectGuid>
+    <ProjectGuid>{61F27D9D-ECAE-404C-80D4-87153559F8BF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EPlib</RootNamespace>
-    <AssemblyName>EPlib</AssemblyName>
+    <RootNamespace>Clib</RootNamespace>
+    <AssemblyName>Clib</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,24 +38,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\InOut\NavDialog.cs" />
-    <Compile Include="Application\InOut\StreamXML.cs" />
-    <Compile Include="Application\Preferences\PreferencesManager.cs" />
-    <Compile Include="Drawable\InteractiveElement.cs" />
-    <Compile Include="Drawable\SerialIE.cs" />
-    <Compile Include="Drawable\Shapes\Hexagon.cs" />
-    <Compile Include="Drawable\Shapes\Pentagon.cs" />
-    <Compile Include="Drawable\Shapes\Rectangle.cs" />
-    <Compile Include="Drawable\Shapes\Square.cs" />
-    <Compile Include="Drawable\Shapes\Triangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util\ColorHelper.cs" />
-    <Compile Include="Util\Interfaces\ILogger.cs" />
-    <Compile Include="Util\Logs\FileLogger.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using EPlib.Application.Preferences;
 using EPlib.Drawable;
 using EPlib.Util;
+using EPlib.Util.Logs;
 using EP = EPlib.Drawable.Shapes;
 using cIO = EPlib.Application.InOut;
 using Microsoft.Win32;
@@ -34,6 +35,8 @@ namespace Event_Planner
         HitTestResult _HitResult;
         Point _Current;
         PreferencesManager _PM;
+
+        public readonly string logPath = System.IO.Path.GetTempFileName();
 
         // Canvas
         private double _ZoomMax = 10;
@@ -55,21 +58,23 @@ namespace Event_Planner
                 switch (_CurrentType)
                 {
                     case InteractiveElement.IElementType.Square:
-                        _IE = new EP.Square();
+                        _IE = new EP.Square(new FileLogger(_PM.GetLogPath));
                         break;
                     case InteractiveElement.IElementType.Rectangle:
-                        _IE = new EP.Rectangle();
+                        _IE = new EP.Rectangle(new FileLogger(_PM.GetLogPath));
                         break;
                     case InteractiveElement.IElementType.Triangle:
-                        _IE = new EP.Triangle();
+                        _IE = new EP.Triangle(new FileLogger(_PM.GetLogPath));
                         break;
                     case InteractiveElement.IElementType.Pentagon:
-                        _IE = new EP.Pentagon();
+                        _IE = new EP.Pentagon(new FileLogger(_PM.GetLogPath));
                         break;
                     case InteractiveElement.IElementType.Hexagon:
-                        _IE = new EP.Hexagon();
+                        _IE = new EP.Hexagon(new FileLogger(_PM.GetLogPath));
                         break;
                 }
+
+                _IE.LogCreation();
 
                 TranslateTransform tt = new TranslateTransform(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y);
                 _IE.RenderTransform = tt;
@@ -338,7 +343,7 @@ namespace Event_Planner
                 {
                     toSave.Add(ch);
                 }
-
+                
                 cIO.StreamXML.WriteXMLIElements(path, toSave);
             }
         }

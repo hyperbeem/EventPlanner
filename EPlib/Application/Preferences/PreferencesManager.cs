@@ -14,8 +14,15 @@ namespace EPlib.Application.Preferences
         public bool usingGrid { get; set; }
         public int GridAmount { get; set; }
 
+        private readonly string logPath;
+        public string GetLogPath
+        {
+            get { return logPath; }
+        }
+
         public PreferencesManager()
         {
+            logPath = System.IO.Path.GetTempFileName();
             usingGrid = false;
             GridAmount = 1;
         }

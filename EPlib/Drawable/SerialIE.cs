@@ -9,14 +9,16 @@ using EPlib.Drawable;
 using EP = EPlib.Drawable.Shapes;
 using System.Windows;
 
+using EPlib.Util.Logs;
+
 namespace EPlib.Drawable
 {
     public class SerialIE
     {
         public String elementType { get; set; }
-        public StreamGeometry Geometry { get; set; }
+        public StreamGeometry Geometry { get; set; } // not needed
         public Point Point { get; set; }
-        public PointCollection PointCollection { get; set; }
+        public PointCollection PointCollection { get; set; } // not needed
         public Color Stroke { get; set; }
         public Color Fill { get; set; }
         public long Count { get; set; }
@@ -31,19 +33,19 @@ namespace EPlib.Drawable
             switch (Type)
             {
                 case InteractiveElement.IElementType.Square:
-                    _IE = new EP.Square();
+                    _IE = new EP.Square(new FileLogger(null));
                     break;
                 case InteractiveElement.IElementType.Rectangle:
-                    _IE = new EP.Rectangle();
+                    _IE = new EP.Rectangle(new FileLogger(null));
                     break;
                 case InteractiveElement.IElementType.Triangle:
-                    _IE = new EP.Triangle();
+                    _IE = new EP.Triangle(new FileLogger(null));
                     break;
                 case InteractiveElement.IElementType.Pentagon:
-                    _IE = new EP.Pentagon();
+                    _IE = new EP.Pentagon(new FileLogger(null));
                     break;
                 case InteractiveElement.IElementType.Hexagon:
-                    _IE = new EP.Hexagon();
+                    _IE = new EP.Hexagon(new FileLogger(null));
                     break;
             }
 

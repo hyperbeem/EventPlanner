@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EPlib.Util.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace EPlib.Drawable.Shapes
 {
     public class Triangle : InteractiveElement
     {
-        public Triangle() : base()
+        public Triangle(ILogger logger) : base(logger)
         {
             _ThisType = IElementType.Triangle;
 
