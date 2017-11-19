@@ -10,6 +10,11 @@ namespace EPlib.Util
 
     public class ColorHelper
     {
+        /// <summary>
+        /// Extracts the color values from a given brush
+        /// </summary>
+        /// <param name="br"></param>
+        /// <returns></returns>
         public static Color ExtractColor(Brush br)
         {
             byte r = ((Color)br.GetValue(SolidColorBrush.ColorProperty)).R;
@@ -21,6 +26,11 @@ namespace EPlib.Util
             return c;
         }
 
+        /// <summary>
+        /// Extracts the color values from a given pen
+        /// </summary>
+        /// <param name="pen"></param>
+        /// <returns></returns>
         public static Color ExtractColor(Pen pen)
         {
             return ExtractColor(pen.Brush);

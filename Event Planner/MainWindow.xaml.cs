@@ -48,7 +48,7 @@ namespace Event_Planner
         {
             InitializeComponent();
             _CurrentType = InteractiveElement.IElementType.Square;
-            _PM = new PreferencesManager(logPath, new FileLogger(logPath), (int)DrawingCanvas.Width, (int)DrawingCanvas.Height);
+            _PM = new PreferencesManager(logPath);
         }
 
         private void DrawingCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -73,8 +73,6 @@ namespace Event_Planner
                         _IE = new EP.Hexagon(new FileLogger(_PM.GetLogPath));
                         break;
                 }
-
-                _IE.LogCreation();
 
                 TranslateTransform tt = new TranslateTransform(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y);
                 _IE.RenderTransform = tt;
@@ -362,6 +360,15 @@ namespace Event_Planner
                 {
                     DrawingCanvas.Children.Add(s.Load());
                 }
+            }
+        }
+
+        private void GSnapTBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            bool isNumeric = int.TryParse(GSnapTBox.Text, out var am);
+            if (isNumeric)
+            {
+                _PM.GridAmount = am;
             }
         }
     }

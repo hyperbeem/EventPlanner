@@ -24,6 +24,10 @@ namespace EPlib.Drawable
         public long Count { get; set; }
         public String Name { get; set; }
 
+        /// <summary>
+        /// Loads all shapes from chosen file
+        /// </summary>
+        /// <returns></returns>
         public InteractiveElement Load()
         {
             Enum.TryParse<InteractiveElement.IElementType>(elementType, out var Type);
@@ -52,10 +56,10 @@ namespace EPlib.Drawable
             //_IE.GetGeometry = Geometry;
             _IE.Point = Point;
             _IE.GetPointCollection = PointCollection;
-            _IE.GetStroke = new Pen(Brushes.Black,1); // Should be Stroke, Will convert to enum
+            _IE.SetStroke = new Pen(Brushes.Black,1); // Should be Stroke, Will convert to enum
             _IE.GetFill = new SolidColorBrush(Fill);
-            _IE.GetCount = Count;
-            _IE.GetName = Name;
+            _IE.SetCount = Count;
+            _IE.SetName = Name;
 
             TranslateTransform tt = new TranslateTransform(Point.X,Point.Y);
             _IE.RenderTransform = tt;

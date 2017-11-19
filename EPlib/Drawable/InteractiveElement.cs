@@ -35,46 +35,114 @@ namespace EPlib.Drawable
         }
 
         protected StreamGeometry _Geo;
+
+        /// <summary>
+        /// Gets the Geometry object assigned to shape
+        /// </summary>
         public StreamGeometry GetGeometry
         {
             get { return _Geo; }
+        }
+
+        /// <summary>
+        /// Sets the Geometry of an object
+        /// </summary>
+        public StreamGeometry SetGeometry
+        {
             set { _Geo = value; }
         }
 
         public Point Point { get; set; }
 
         protected PointCollection _PC;
+
+        /// <summary>
+        /// Gets the PointCollection object assigned to shape
+        /// </summary>
         public PointCollection GetPointCollection
         {
             get { return _PC; }
             set { _PC = value; }
         }
 
+        /// <summary>
+        /// Sets the PointCollection of an object
+        /// </summary>
+        public PointCollection SetPointCollection
+        {
+            set { _PC = value; }
+        }
+
         protected Pen _Stroke;
+
+        /// <summary>
+        /// Gets the Pen object assigned to shape
+        /// </summary>
         public Pen GetStroke
         {
             get { return _Stroke; }
+        }
+
+        /// <summary>
+        /// Sets the Pen object assigned to shape
+        /// </summary>
+        public Pen SetStroke
+        {
             set { _Stroke = value; }
         }
 
         protected Brush _Fill;
+
+        /// <summary>
+        /// Gets the Brush object assigned to shape
+        /// </summary>
         public Brush GetFill
         {
             get { return _Fill; }
             set { _Fill = value; }
         }
 
+        /// <summary>
+        /// Sets the Brush object assigned to shape
+        /// </summary>
+        public Brush SetFill
+        {
+            set { _Fill = value; }
+        }
+
         protected static long _Count;
+
+        /// <summary>
+        /// Gets the Count of all objects using shape class
+        /// </summary>
         public long GetCount
         {
             get { return _Count; }
+        }
+
+        /// <summary>
+        /// Sets the Count of all object using shape calss
+        /// </summary>
+        public long SetCount
+        {
             set { _Count = value; }
         }
 
         protected String _Name;
+
+        /// <summary>
+        /// Gets the Name of the object
+        /// </summary>
         public string GetName
         {
             get { return _Name; }
+        }
+
+        /// <summary>
+        /// Sets the Name of the object
+        /// </summary>
+        public string SetName
+        {
             set { _Name = value; }
         }
 
@@ -92,11 +160,6 @@ namespace EPlib.Drawable
         public InteractiveElement(StreamGeometry geometry, Pen stroke, Brush brush, String name)
         {
 
-        }
-
-        public void LogCreation()
-        {
-            _logger.LogInfo("Shape " + GetThisType + " has been created.");
         }
 
         protected override void OnRender(DrawingContext dc)

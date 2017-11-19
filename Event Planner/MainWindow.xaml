@@ -80,7 +80,7 @@
 
         <WrapPanel Margin="10,0" Height="25" VerticalAlignment="Bottom">
             <Label x:Name="GridSetName" Content="Grid Snap Amount:"/>
-            <TextBox x:Name="GSnapTBox" Height="18" TextWrapping="Wrap" Width="60" KeyUp="GSnapTBox_KeyUp"/>
+            <TextBox x:Name="GSnapTBox" Height="18" TextWrapping="Wrap" Width="60" KeyUp="GSnapTBox_KeyUp" LostFocus="GSnapTBox_LostFocus"/>
 
         </WrapPanel>
     </Grid>

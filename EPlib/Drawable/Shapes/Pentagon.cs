@@ -36,6 +36,8 @@ namespace EPlib.Drawable.Shapes
             _Name = "Pentagon" + _Count;
 
             _Fill = new SolidColorBrush(Color.FromRgb(192, 0, 0));
+
+            _logger.LogInfo("Shape " + GetThisType + " has been created.");
         }
     }
 }

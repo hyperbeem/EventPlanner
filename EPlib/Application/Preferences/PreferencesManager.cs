@@ -11,13 +11,8 @@ namespace EPlib.Application.Preferences
 {
     public class PreferencesManager
     {
-        // Logger
-        protected readonly ILogger _logger;
-
         // Perferences
         public bool usingGrid { get; set; }
-        public int canvasSizeX { get; set; }
-        public int canvaseSizeY { get; set; }
 
         private int gridAmount;
         public int GridAmount
@@ -27,12 +22,8 @@ namespace EPlib.Application.Preferences
             set
             {
                 gridAmount = value;
-                UpdateGridList();
             }
         }
-
-        private List<int> gridListX;
-        private List<int> gridListY;
 
         private string logPath;
         public string GetLogPath
@@ -40,59 +31,18 @@ namespace EPlib.Application.Preferences
             get { return logPath; }
         }
 
-        public PreferencesManager(string LogPath, ILogger Logger, int CanvasSizeX, int CanvasSizeY)
+        public PreferencesManager(string LogPath)
         {
-            _logger = Logger;
-            gridListX = new List<int>();
-            gridListY = new List<int>();
-
-            canvasSizeX = CanvasSizeX;
-            _logger.LogInfo("Canvas Width = " + CanvasSizeX);
-            canvaseSizeY = CanvasSizeY;
-            _logger.LogInfo("Canvas Height = " + CanvasSizeY);
-
             logPath = LogPath;
-
             usingGrid = false;
             gridAmount = 1;
         }
 
-        public void UpdateGridList()
-        {
-            UpdateGridList(canvasSizeX, canvaseSizeY);
-        }
-
-        public void UpdateGridList(int canvasX, int canvasY)
-        {
-            gridListX.Clear();
-            gridListY.Clear();
-
-            int x = 0, y = 0;
-
-            while (x < canvasX && y < canvasY)
-            {
-                gridListX.Add(x);
-                gridListY.Add(y);
-
-                x += gridAmount;
-                y += gridAmount;
-            }
-
-            _logger.LogInfo("Grid has been updated");
-        }
-
-        [Obsolete]
-        public bool OnGrid(Point MousePosition)
-        {
-            if (usingGrid == false)
-                return true;
-
-            if ((int)MousePosition.X % gridAmount == 0 && (int)MousePosition.Y % gridAmount == 0)
-                return true;
-            else
-                return false;
-        }
-
+        /// <summary>
+        /// Returns the closest grid point
+        /// </summary>
+        /// <param name="mousePosition"></param>
+        /// <returns></returns>
         public Point GetGridLocation(Point mousePosition)
         {
             if (usingGrid == false)
@@ -102,21 +52,28 @@ namespace EPlib.Application.Preferences
 
         }
 
-        // Nick F https://social.msdn.microsoft.com/Forums/en-US/54e0ec6e-319c-438f-a59f-141f7c51e795/how-to-get-the-nearest-one-to-a-given-value-in-a-list-and-the-second-nearest-one-too?forum=csharpgeneral
+        /// <summary>
+        /// Returns the closets grid point
+        /// </summary>
+        /// <param name="currentPoint"></param>
+        /// <returns></returns>
         private Point NearestPoint(Point currentPoint)
         {
-            int i, i2;
+            double x, y, am = gridAmount / 2D;
 
-            i = gridListX.BinarySearch((int)currentPoint.X);
-            i2 = gridListY.BinarySearch((int)currentPoint.Y);
+            double ix = currentPoint.X % gridAmount, iy = currentPoint.Y % gridAmount;
 
-            if (0 >= i)
-                i = ~i;
-            if (0 >= i2)
-                i2 = ~i2;
+            if (ix > am)
+                x = (currentPoint.X - ix) + gridAmount;
+            else
+                x = currentPoint.X - ix;
 
-            return new Point(gridListX[i - 1], gridListY[i2 - 1]);
+            if (iy > am)
+                y = (currentPoint.Y - iy) + gridAmount;
+            else
+                y = currentPoint.Y - iy;
 
+            return new Point(x, y);
         }
 
     }

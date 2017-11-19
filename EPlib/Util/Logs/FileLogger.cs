@@ -24,21 +24,38 @@ namespace EPlib.Util.Logs
             _writePath = path;
         }
 
+        /// <summary>
+        /// Logs an error
+        /// </summary>
+        /// <param name="message"></param>
         public void LogError(string message)
         {
             Log(LogType.ERROR, message);
         }
 
+        /// <summary>
+        /// Logs info
+        /// </summary>
+        /// <param name="message"></param>
         public void LogInfo(string message)
         {
             Log(LogType.INFO, message);
         }
 
+        /// <summary>
+        /// Logs general information
+        /// </summary>
+        /// <param name="message"></param>
         public void LogGeneral(string message)
         {
             Log(LogType.GENERAL, message);
         }
 
+        /// <summary>
+        /// Writes to the log file
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="message"></param>
         private void Log(LogType type, string message)
         {
             using (StreamWriter sw = new StreamWriter(_writePath, true))

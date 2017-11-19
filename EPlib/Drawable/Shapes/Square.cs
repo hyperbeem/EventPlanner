@@ -32,6 +32,8 @@ namespace EPlib.Drawable.Shapes
             _Name = "Square" + _Count;
 
             _Fill = new SolidColorBrush(Color.FromRgb(192, 168, 22));
+
+            _logger.LogInfo("Shape " + GetThisType + " has been created.");
         }
     }
 }
