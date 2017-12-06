@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using System.Windows;
 using EPlib.Util.Interfaces;
+using EPlib.Util;
+using System.Windows.Controls;
 
 namespace EPlib.Application.Preferences
 {
@@ -23,6 +25,18 @@ namespace EPlib.Application.Preferences
             {
                 gridAmount = value;
             }
+        }
+
+        private int canvasWidth;
+        public int SetCanvasWidth
+        {
+            set { canvasWidth = value; }
+        }
+
+        private int canvasHeight;
+        public int SetCanvasHeight
+        {
+            set { canvasHeight = value; }
         }
 
         private string logPath;
@@ -50,6 +64,19 @@ namespace EPlib.Application.Preferences
 
             return NearestPoint(mousePosition);
 
+        }
+
+        public void CreateGrid(Canvas canvas)
+        {
+            if (usingGrid)
+                if (GridAmount != 0)
+                    if (GridAmount != 1)
+                        DrawGrid.Draw(gridAmount, canvas);
+        }
+
+        public void RemoveGrid(Canvas canvas)
+        {
+            DrawGrid.RemoveGraph(canvas);
         }
 
         /// <summary>

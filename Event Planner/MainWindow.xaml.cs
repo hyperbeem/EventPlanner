@@ -12,12 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Reflection;
 
 using EPlib.Application.Preferences;
 using EPlib.Drawable;
 using EPlib.Util;
 using EPlib.Util.Logs;
-using EPlib.Util.Interfaces;
 using EP = EPlib.Drawable.Shapes;
 using cIO = EPlib.Application.InOut;
 
@@ -30,6 +30,7 @@ namespace Event_Planner
     {
         InteractiveElement _IE;
         InteractiveElement.IElementType _CurrentType;
+        int _MenuStyle = 0;
         bool _Placing;
         bool _Selecting;
         HitTestResult _HitResult;
@@ -47,37 +48,44 @@ namespace Event_Planner
         public MainWindow()
         {
             InitializeComponent();
+            var _TypeList = AsmInfo.GetTypesFromNamespace("EPlib.Drawable.Shapes");
             _CurrentType = InteractiveElement.IElementType.Square;
             _PM = new PreferencesManager(logPath);
         }
+
+        public void sudoGrid()
+        {
+            _PM.CreateGrid(DrawingCanvas);
+        }
+
 
         private void DrawingCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                switch (_CurrentType)
-                {
-                    case InteractiveElement.IElementType.Square:
-                        _IE = new EP.Square(new FileLogger(_PM.GetLogPath));
-                        break;
-                    case InteractiveElement.IElementType.Rectangle:
-                        _IE = new EP.Rectangle(new FileLogger(_PM.GetLogPath));
-                        break;
-                    case InteractiveElement.IElementType.Triangle:
-                        _IE = new EP.Triangle(new FileLogger(_PM.GetLogPath));
-                        break;
-                    case InteractiveElement.IElementType.Pentagon:
-                        _IE = new EP.Pentagon(new FileLogger(_PM.GetLogPath));
-                        break;
-                    case InteractiveElement.IElementType.Hexagon:
-                        _IE = new EP.Hexagon(new FileLogger(_PM.GetLogPath));
-                        break;
-                }
+                string sType = "";
+
+                if (_MenuStyle == 0)
+                    sType = "EPlib.Drawable.Shapes." + _CurrentType.ToString();
+                if (_MenuStyle == 1)
+                    sType = "EPlib.Drawable.Icons." + _CurrentType.ToString();
+                if (_MenuStyle >= 2)
+                    throw new ArgumentOutOfRangeException("Woah... how the fak did you do that?");
+
+                // Reflection creation method
+                Assembly assembly = Assembly.Load("Eplib");
+                Type t = assembly.GetType(sType);
+                Object args = new FileLogger(_PM.GetLogPath);
+
+                Object obj = Activator.CreateInstance(t, args);
+
+                // Cast to InteractiveElement
+                _IE = (InteractiveElement)obj;
 
                 TranslateTransform tt = new TranslateTransform(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y);
                 _IE.RenderTransform = tt;
 
-                _IE.Point = new Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y);
+                _IE.SetPoint = new Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y);
                 DrawingCanvas.Children.Add(_IE);
 
                 _Placing = true;
@@ -103,7 +111,7 @@ namespace Event_Planner
                     Point currentGrid = _PM.GetGridLocation(_Current);
                     tt = new TranslateTransform(currentGrid.X, currentGrid.Y);
                     _IE.RenderTransform = tt;
-                    _IE.Point = new Point(tt.X, tt.Y);
+                    _IE.SetPoint = new Point(tt.X, tt.Y);
                     UpdateProperties(_IE);
                 }
             }
@@ -114,7 +122,7 @@ namespace Event_Planner
                     Point currentGrid = _PM.GetGridLocation(_Current);
                     tt = new TranslateTransform(currentGrid.X, currentGrid.Y);
                     _IE.RenderTransform = tt;
-                    _IE.Point = new Point(tt.X, tt.Y);
+                    _IE.SetPoint = new Point(tt.X, tt.Y);
                     UpdateProperties(_IE);
                 }
             }
@@ -151,28 +159,40 @@ namespace Event_Planner
 
         private void HexagonButton_Click(object sender, RoutedEventArgs e)
         {
+            _MenuStyle = 0;
             _CurrentType = InteractiveElement.IElementType.Hexagon;
         }
 
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
         {
+            _MenuStyle = 0;
             _CurrentType = InteractiveElement.IElementType.Rectangle;
         }
 
         private void SquareButton_Click(object sender, RoutedEventArgs e)
         {
+            _MenuStyle = 0;
             _CurrentType = InteractiveElement.IElementType.Square;
         }
 
         private void TriangleButton_Click(object sender, RoutedEventArgs e)
         {
+            _MenuStyle = 0;
             _CurrentType = InteractiveElement.IElementType.Triangle;
         }
 
         private void PentagonButton_Click(object sender, RoutedEventArgs e)
         {
+            _MenuStyle = 0;
             _CurrentType = InteractiveElement.IElementType.Pentagon;
         }
+
+        private void TentButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 1;
+            _CurrentType = InteractiveElement.IElementType.Tent;
+        }
+
 
         // https://userinterfacemaker.wordpress.com/2015/09/08/zooming-for-canvas-cwpf/
         private void DrawingCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -219,8 +239,8 @@ namespace Event_Planner
             PropTBoxName.Text = IE.GetName;
 
             // Position
-            PropTBoxX.Text = IE.Point.X.ToString();
-            PropTBoxY.Text = IE.Point.Y.ToString();
+            PropTBoxX.Text = IE.GetPoint.X.ToString();
+            PropTBoxY.Text = IE.GetPoint.Y.ToString();
 
             // Color
             Color c = ColorHelper.ExtractColor(IE.GetFill);
@@ -228,6 +248,8 @@ namespace Event_Planner
             PropTBoxColorR.Text = c.R.ToString();
             PropTBoxColorG.Text = c.G.ToString();
             PropTBoxColorB.Text = c.B.ToString();
+
+            PropTBoxScale.Text = _IE.GetScale.ToString();
         }
 
         private void PropTBoxX_KeyUp(object sender, KeyEventArgs e)
@@ -291,11 +313,13 @@ namespace Event_Planner
         private void GridToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             _PM.usingGrid = true;
+            _PM.CreateGrid(DrawingCanvas);
         }
 
         private void GridToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _PM.usingGrid = false;
+            _PM.RemoveGrid(DrawingCanvas);
         }
 
         private void GSnapTBox_KeyUp(object sender, KeyEventArgs e)
@@ -306,7 +330,18 @@ namespace Event_Planner
                 if (isNumeric)
                 {
                     _PM.GridAmount = am;
+                    _PM.CreateGrid(DrawingCanvas);
                 }
+            }
+        }
+
+        private void GSnapTBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            bool isNumeric = int.TryParse(GSnapTBox.Text, out var am);
+            if (isNumeric)
+            {
+                _PM.GridAmount = am;
+                _PM.CreateGrid(DrawingCanvas);
             }
         }
 
@@ -358,17 +393,127 @@ namespace Event_Planner
 
                 foreach (SerialIE s in processList)
                 {
-                    DrawingCanvas.Children.Add(s.Load());
+                    DrawingCanvas.Children.Add(s.Load(_PM.GetLogPath));
                 }
             }
         }
 
-        private void GSnapTBox_LostFocus(object sender, RoutedEventArgs e)
+        private void SliderScale_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            bool isNumeric = int.TryParse(GSnapTBox.Text, out var am);
-            if (isNumeric)
+            if (_IE != null)
             {
-                _PM.GridAmount = am;
+                double x = Math.Round(e.NewValue, 2);
+
+                _IE.SetSclae = x;
+                PropTBoxScale.Text = x.ToString();
+            }
+        }
+
+        private void PropTBoxScale_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                ScaleAgjust(PropTBoxScale.Text);
+        }
+
+        private void PropTBoxScale_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ScaleAgjust(PropTBoxScale.Text);
+        }
+
+        private void ScaleAgjust(string value)
+        {
+            bool isDouble = double.TryParse(value, out var oVal);
+            oVal = Math.Round(oVal, 2);
+
+            if (isDouble)
+            {
+                if (oVal > 10)
+                {
+                    oVal = 10d;
+                    PropTBoxScale.Text = "10";
+                }
+
+                SliderScale.Value = oVal;
+                _IE.SetSclae = oVal;
+            }
+        }
+
+        private void HideToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_IE != null)
+            {
+                _IE.IsVisable = !_IE.IsVisable;
+                _IE.InvalidateVisual();
+            }
+        }
+
+        private void HideAllToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (UIElement IE in DrawingCanvas.Children)
+            {
+                if (IE is InteractiveElement)
+                {
+                    InteractiveElement IEX = (InteractiveElement)IE;
+                    if (IEX.IsVisable == true)
+                    {
+                        IEX.IsVisable = false;
+                        IEX.InvalidateVisual();
+                    }
+                }
+            }
+        }
+
+        private void UnhideAllToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (UIElement IE in DrawingCanvas.Children)
+            {
+                if (IE is InteractiveElement)
+                {
+                    InteractiveElement IEX = (InteractiveElement)IE;
+                    if (IEX.IsVisable == false)
+                    {
+                        IEX.IsVisable = true;
+                        IEX.InvalidateVisual();
+                    }
+                }
+            }
+        }
+
+        private void Menu_Export_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "PNG Image (*.png)|*.png" //|JPEG Image (*.jpeg)|*.jpeg";
+            };
+
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = sfd.FileName;
+
+                // Kris, StackOverflow.org
+                // https://stackoverflow.com/questions/8881865/saving-a-wpf-canvas-as-an-image
+                Transform tf = DrawingCanvas.LayoutTransform;
+                DrawingCanvas.LayoutTransform = null;
+                Size size = new Size(DrawingCanvas.Width, DrawingCanvas.Height);
+
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)DrawingCanvas.RenderSize.Width,
+                                                                (int)DrawingCanvas.RenderSize.Height,
+                                                                96d,
+                                                                96d,
+                                                                PixelFormats.Default);
+                DrawingCanvas.Measure(size);
+                DrawingCanvas.Arrange(new Rect(size));
+                rtb.Render(DrawingCanvas);
+
+                PngBitmapEncoder enc = new PngBitmapEncoder();
+                enc.Frames.Add(BitmapFrame.Create(rtb));
+
+                using (var fs = System.IO.File.OpenWrite(path))
+                {
+                    enc.Save(fs);
+                }
+                DrawingCanvas.LayoutTransform = tf;
             }
         }
     }

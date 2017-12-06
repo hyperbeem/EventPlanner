@@ -16,6 +16,7 @@
                     <MenuItem Header="_New"/>
                     <MenuItem x:Name="Menu_Open" Header="_Open" Click="Menu_Open_Click"/>
                     <MenuItem x:Name="Menu_Save" Header="_Save" Click="Menu_Save_Click"/>
+                    <MenuItem x:Name="Menu_Export" Header="_Export" Click="Menu_Export_Click"></MenuItem>
                     <MenuItem x:Name="Menu_Close" Header="_Close" Click="Menu_Close_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Canvas">
@@ -26,9 +27,15 @@
                         <MenuItem x:Name="SquareButton" Header="_Square" Click="SquareButton_Click"/>
                         <MenuItem x:Name="TriangleButton" Header="_Triangle" Click="TriangleButton_Click"/>
                     </MenuItem>
+                    <MenuItem Header="_Icons">
+                        <MenuItem x:Name="TentButton" Header="_Tent" Click="TentButton_Click"/>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Tools">
                     <MenuItem x:Name="GridToggleButton" Header="_Grid" IsCheckable="True" Checked="GridToggleButton_Checked" Unchecked="GridToggleButton_Unchecked"/>
+                    <MenuItem x:Name="HideToggleButton" Header="_Hide" Click="HideToggleButton_Click"></MenuItem>
+                    <MenuItem x:Name="HideAllToggleButton" Header="_Hide All" Click="HideAllToggleButton_Click"></MenuItem>
+                    <MenuItem x:Name="UnhideAllToggleButton" Header="_Unhind All" Click="UnhideAllToggleButton_Click"></MenuItem>
                 </MenuItem>
             </Menu>
             <StackPanel></StackPanel>
@@ -71,7 +78,9 @@
                 <Label x:Name="PropLableColorG" Content="G" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,62,0,0" Grid.Row="2" Height="26" Width="18"/>
                 <TextBox x:Name="PropTBoxColorB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Margin="32,92,0,0" Grid.Row="2" KeyUp="PropTBoxColorB_KeyUp"/>
 
-
+                <Label x:Name="PropLableSlider" Content="Scale" HorizontalAlignment="Left" Margin="2,10,0,0" Grid.Row="3" VerticalAlignment="Top" FontWeight="Bold"/>
+                <Slider x:Name="SliderScale" HorizontalAlignment="Left" Margin="10,36,0,0" Grid.Row="3" VerticalAlignment="Top" Minimum="0.1" Width="153" Value="1" ValueChanged="SliderScale_ValueChanged"/>
+                <TextBox x:Name="PropTBoxScale" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" Margin="168,33,0,0" Grid.Row="3" KeyUp="PropTBoxScale_KeyUp" LostFocus="PropTBoxScale_LostFocus"/>
 
 
 
@@ -80,7 +89,7 @@
 
         <WrapPanel Margin="10,0" Height="25" VerticalAlignment="Bottom">
             <Label x:Name="GridSetName" Content="Grid Snap Amount:"/>
-            <TextBox x:Name="GSnapTBox" Height="18" TextWrapping="Wrap" Width="60" KeyUp="GSnapTBox_KeyUp" LostFocus="GSnapTBox_LostFocus"/>
+            <TextBox x:Name="GSnapTBox" Height="18" TextWrapping="Wrap" Width="60" KeyUp="GSnapTBox_KeyUp" LostFocus="GSnapTBox_LostFocus" Text="0"/>
 
         </WrapPanel>
     </Grid>

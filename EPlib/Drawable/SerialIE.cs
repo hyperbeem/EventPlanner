@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Input;
 using EPlib.Drawable;
-using EP = EPlib.Drawable.Shapes;
+using ES = EPlib.Drawable.Shapes;
+using EI = EPlib.Drawable.Icons;
 using System.Windows;
 
 using EPlib.Util.Logs;
@@ -15,55 +16,61 @@ namespace EPlib.Drawable
 {
     public class SerialIE
     {
-        public String elementType { get; set; }
-        public StreamGeometry Geometry { get; set; } // not needed
+        public bool IsIcon { get; set; }
+        public String ElementType { get; set; }
         public Point Point { get; set; }
-        public PointCollection PointCollection { get; set; } // not needed
         public Color Stroke { get; set; }
         public Color Fill { get; set; }
         public long Count { get; set; }
         public String Name { get; set; }
+        public double Scale { get; set; }
 
         /// <summary>
         /// Loads all shapes from chosen file
         /// </summary>
         /// <returns></returns>
-        public InteractiveElement Load()
+        public InteractiveElement Load(string loggerPath)
         {
-            Enum.TryParse<InteractiveElement.IElementType>(elementType, out var Type);
+            Enum.TryParse<InteractiveElement.IElementType>(ElementType, out var Type);
 
             InteractiveElement _IE = null;
 
             switch (Type)
             {
                 case InteractiveElement.IElementType.Square:
-                    _IE = new EP.Square(new FileLogger(null));
+                    _IE = new ES.Square(new FileLogger(loggerPath));
                     break;
                 case InteractiveElement.IElementType.Rectangle:
-                    _IE = new EP.Rectangle(new FileLogger(null));
+                    _IE = new ES.Rectangle(new FileLogger(loggerPath));
                     break;
                 case InteractiveElement.IElementType.Triangle:
-                    _IE = new EP.Triangle(new FileLogger(null));
+                    _IE = new ES.Triangle(new FileLogger(loggerPath));
                     break;
                 case InteractiveElement.IElementType.Pentagon:
-                    _IE = new EP.Pentagon(new FileLogger(null));
+                    _IE = new ES.Pentagon(new FileLogger(loggerPath));
                     break;
                 case InteractiveElement.IElementType.Hexagon:
-                    _IE = new EP.Hexagon(new FileLogger(null));
+                    _IE = new ES.Hexagon(new FileLogger(loggerPath));
+                    break;
+                case InteractiveElement.IElementType.Tent:
+                    _IE = new EI.Tent(new FileLogger(loggerPath));
                     break;
             }
 
-            //_IE.GetGeometry = Geometry;
-            _IE.Point = Point;
-            _IE.GetPointCollection = PointCollection;
-            _IE.SetStroke = new Pen(Brushes.Black,1); // Should be Stroke, Will convert to enum
-            _IE.GetFill = new SolidColorBrush(Fill);
+            _IE.SetPoint = Point;
             _IE.SetCount = Count;
             _IE.SetName = Name;
+            _IE.SetSclae = Scale;
 
             TranslateTransform tt = new TranslateTransform(Point.X,Point.Y);
             _IE.RenderTransform = tt;
             _IE.InvalidateVisual();
+
+            if(!IsIcon)
+            {
+                _IE.SetStroke = new Pen(Brushes.Black, 1); // Should be Stroke, Will convert to enum
+                _IE.GetFill = new SolidColorBrush(Fill);
+            }
 
             return _IE;
 

@@ -17,27 +17,34 @@ namespace EPlib.Drawable.Shapes
         {
             _ThisType = IElementType.Pentagon;
 
-            using (StreamGeometryContext gC = _Geo.Open())
-            {
-                double width = 20d;
-                double height = 20d;
-                gC.BeginFigure(new Point(width * 1.0257, height * 0.618), true, true);
-
-                _PC = new PointCollection
-                {
-                    new Point(width*0.5,height),
-                    new Point(width*-0.0257,height*0.618),
-                    new Point(width*0.1751,height*0),
-                    new Point(width*0.8249,height*0)
-                };
-                gC.PolyLineTo(_PC, true, true);
-            }
+            UpdateVisual();
+            
             _Count++;
             _Name = "Pentagon" + _Count;
 
             _Fill = new SolidColorBrush(Color.FromRgb(192, 0, 0));
 
             _logger.LogInfo("Shape " + GetThisType + " has been created.");
+        }
+
+        public override void UpdateVisual()
+        {
+            using (StreamGeometryContext gC = _Geo.Open())
+            {
+                double s = GetScale;
+                double width = 20d;
+                double height = 20d;
+                gC.BeginFigure(new Point((width * 1.0257) * s, (height * 0.618)*s), true, true);
+
+                _PC = new PointCollection
+                {
+                    new Point((width*0.5)*s,height*s),
+                    new Point((width*-0.0257)*s,(height*0.618)*s),
+                    new Point((width*0.1751)*s,(height*0)*s),
+                    new Point((width*0.8249)*s,(height*0)*s)
+                };
+                gC.PolyLineTo(_PC, true, true);
+            }
         }
     }
 }

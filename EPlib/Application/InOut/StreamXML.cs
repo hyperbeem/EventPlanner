@@ -49,10 +49,10 @@ namespace EPlib.Application.InOut
             var IE = (InteractiveElement)element;
             return new SerialIE
             {
-                elementType = IE.GetThisType,
-                Geometry = IE.GetGeometry,
-                Point = IE.Point,
-                PointCollection = IE.GetPointCollection,
+                IsIcon = IE.IsIcon,
+                ElementType = IE.GetThisType,
+                Scale = IE.GetScale,
+                Point = IE.GetPoint,
                 Stroke = ColorHelper.ExtractColor(IE.GetStroke),
                 Fill = ColorHelper.ExtractColor(IE.GetFill),
                 Count = IE.GetCount,
@@ -66,19 +66,7 @@ namespace EPlib.Application.InOut
 
             foreach (var ui in elementList)
             {
-                var IE = (InteractiveElement)ui;
-
-                ProcessList.Add(new SerialIE
-                {
-                    elementType = IE.GetThisType,
-                    Geometry = IE.GetGeometry,
-                    Point = IE.Point,
-                    PointCollection = IE.GetPointCollection,
-                    Stroke = ColorHelper.ExtractColor(IE.GetStroke),
-                    Fill = ColorHelper.ExtractColor(IE.GetFill),
-                    Count = IE.GetCount,
-                    Name = IE.GetName
-                });
+                ProcessList.Add(ToSerialIE(ui));
             }
 
             return ProcessList;

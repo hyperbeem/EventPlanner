@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Application\InOut\StreamXML.cs" />
     <Compile Include="Application\Preferences\PreferencesManager.cs" />
+    <Compile Include="Drawable\Icons\Tent.cs" />
     <Compile Include="Drawable\InteractiveElement.cs" />
     <Compile Include="Drawable\SerialIE.cs" />
     <Compile Include="Drawable\Shapes\Hexagon.cs" />
@@ -52,14 +53,15 @@
     <Compile Include="Drawable\Shapes\Rectangle.cs" />
     <Compile Include="Drawable\Shapes\Square.cs" />
     <Compile Include="Drawable\Shapes\Triangle.cs" />
-    <Compile Include="Drawable\StaticElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\AsmInfo.cs" />
     <Compile Include="Util\ColorHelper.cs" />
+    <Compile Include="Util\DrawGrid.cs" />
     <Compile Include="Util\Interfaces\ILogger.cs" />
     <Compile Include="Util\Logs\FileLogger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Drawable\Static\" />
+    <Resource Include="Drawable\Icons\Assets\Tent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

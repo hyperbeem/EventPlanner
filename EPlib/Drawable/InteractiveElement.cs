@@ -23,15 +23,33 @@ namespace EPlib.Drawable
             Pentagon,
             Rectangle,
             Square,
-            Triangle
+            Triangle,
+            Tent
         }
 
         protected readonly ILogger _logger;
+
+        protected bool _IsIcon = false;
+        public bool IsIcon
+        {
+            get { return _IsIcon; }
+        }
 
         protected IElementType _ThisType;
         public string GetThisType
         {
             get { return _ThisType.ToString(); }
+        }
+
+        protected bool _IsVisable;
+
+        /// <summary>
+        /// Gets and Sets the visability of the object
+        /// </summary>
+        public bool IsVisable
+        {
+            get { return _IsVisable; }
+            set { _IsVisable = value; }
         }
 
         protected StreamGeometry _Geo;
@@ -52,7 +70,23 @@ namespace EPlib.Drawable
             set { _Geo = value; }
         }
 
-        public Point Point { get; set; }
+        protected Point _Point;
+
+        /// <summary>
+        /// Gets the point of the object
+        /// </summary>
+        public Point GetPoint
+        {
+            get { return _Point; }
+        }
+
+        /// <summary>
+        /// Sets the point of the object
+        /// </summary>
+        public Point SetPoint
+        {
+            set { _Point = value; }
+        }
 
         protected PointCollection _PC;
 
@@ -146,6 +180,27 @@ namespace EPlib.Drawable
             set { _Name = value; }
         }
 
+        protected double _Scale;
+
+        /// <summary>
+        /// Gets the scale of the object
+        /// </summary>
+        public double GetScale
+        {
+            get { return _Scale; }
+        }
+
+        /// <summary>
+        /// Sets the scale of the object
+        /// </summary>
+        public double SetSclae
+        {
+            set
+            {
+                _Scale = value;
+                UpdateVisual();
+            }
+        }
 
         public InteractiveElement(ILogger logger)
         {
@@ -153,11 +208,18 @@ namespace EPlib.Drawable
             _Stroke = new Pen(Brushes.Black, 1);
             _Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
             _Geo = new StreamGeometry();
-            
+            _Scale = 1;
+            _IsVisable = true;
+
             _Name = "";
         }
 
         public InteractiveElement(StreamGeometry geometry, Pen stroke, Brush brush, String name)
+        {
+
+        }
+
+        public virtual void UpdateVisual()
         {
 
         }
@@ -169,7 +231,8 @@ namespace EPlib.Drawable
 
         protected virtual void Render(DrawingContext dc)
         {
-            dc.DrawGeometry(_Fill, _Stroke, _Geo);
+            if(_IsVisable)
+                dc.DrawGeometry(_Fill, _Stroke, _Geo);
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
