@@ -22,7 +22,7 @@ namespace EPlib.Drawable.Icons.Foliage
             _Count++;
             _Name = "Shrubs " + _Count;
 
-            string uri = "pack://application:,,,/EPlib;component/Drawable/Icons/Assets/Shrubs.png";
+            string uri = "pack://application:,,,/EPlib;component/Drawable/Icons/Assets/Shrub.png";
             ImageSource imageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
             _Fill = new ImageBrush(new BitmapImage(new Uri(imageSource.ToString())));
 

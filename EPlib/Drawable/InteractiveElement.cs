@@ -24,7 +24,6 @@ namespace EPlib.Drawable
             Rectangle,
             Square,
             Triangle,
-            Tent,
             Medical,
             Information,
             WCRow,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -31,7 +32,18 @@ namespace EPlib.Drawable.Icons.Stands
 
         public override void UpdateVisual()
         {
-            base.UpdateVisual();
+            using (StreamGeometryContext gc = _Geo.Open())
+            {
+                double s = GetScale;
+                gc.BeginFigure(new Point(-30.0d * s, -10.0d * s), true, true);
+
+                _PC = new PointCollection();
+                _PC.Add(new Point(30.0d * s, -10.0d * s));
+                _PC.Add(new Point(30.0d * s, 10.0d * s));
+                _PC.Add(new Point(-30.0d * s, 10.0d * s));
+
+                gc.PolyLineTo(_PC, true, true);
+            }
         }
     }
 }

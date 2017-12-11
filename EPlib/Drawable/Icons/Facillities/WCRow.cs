@@ -32,7 +32,18 @@ namespace EPlib.Drawable.Icons.Facillities
 
         public override void UpdateVisual()
         {
-            base.UpdateVisual();
+            using (StreamGeometryContext gc = _Geo.Open())
+            {
+                double s = GetScale;
+                gc.BeginFigure(new Point(-30.0d * s, -10.0d * s), true, true);
+
+                _PC = new PointCollection();
+                _PC.Add(new Point(30.0d * s, -10.0d * s));
+                _PC.Add(new Point(30.0d * s, 10.0d * s));
+                _PC.Add(new Point(-30.0d * s, 10.0d * s));
+
+                gc.PolyLineTo(_PC, true, true);
+            }
         }
     }
 }

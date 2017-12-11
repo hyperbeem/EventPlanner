@@ -22,7 +22,7 @@ namespace EPlib.Drawable.Icons.Stands
             _Count++;
             _Name = "Marquee " + _Count;
 
-            string uri = "pack://application:,,,/EPlib;component/Drawable/Icons/Assets/Marque.png";
+            string uri = "pack://application:,,,/EPlib;component/Drawable/Icons/Assets/Marquee.png";
             ImageSource imageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
             _Fill = new ImageBrush(new BitmapImage(new Uri(imageSource.ToString())));
 

@@ -22,7 +22,7 @@ namespace EPlib.Drawable.Icons.Layout
             _Count++;
             _Name = "Fence " + _Count;
 
-            string uri = "pack://application:,,,/EPlib;component/Drawable/Icons/Assets/Fence.png";
+            string uri = "pack://application:,,,/EPlib;component/Drawable/Icons/Assets/Fencing.png";
             ImageSource imageSource = new ImageSourceConverter().ConvertFromString(uri) as ImageSource;
             _Fill = new ImageBrush(new BitmapImage(new Uri(imageSource.ToString())));
 
