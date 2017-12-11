@@ -58,7 +58,6 @@ namespace Event_Planner
             _PM.CreateGrid(DrawingCanvas);
         }
 
-
         private void DrawingCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!Keyboard.IsKeyDown(Key.LeftCtrl))
@@ -68,9 +67,15 @@ namespace Event_Planner
                 if (_MenuStyle == 0)
                     sType = "EPlib.Drawable.Shapes." + _CurrentType.ToString();
                 if (_MenuStyle == 1)
-                    sType = "EPlib.Drawable.Icons." + _CurrentType.ToString();
-                if (_MenuStyle >= 2)
-                    throw new ArgumentOutOfRangeException("Woah... how the fak did you do that?");
+                    sType = "EPlib.Drawable.Icons.Facillities." + _CurrentType.ToString();
+                if (_MenuStyle == 2)
+                    sType = "EPlib.Drawable.Icons.Foliage." + _CurrentType.ToString();
+                if (_MenuStyle == 3)
+                    sType = "EPlib.Drawable.Icons.Layout." + _CurrentType.ToString();
+                if (_MenuStyle == 4)
+                    sType = "EPlib.Drawable.Icons.Stands." + _CurrentType.ToString();
+                if (_MenuStyle >= 5)
+                    sType = "EPlib.Drawable.Shapes.Square";
 
                 // Reflection creation method
                 Assembly assembly = Assembly.Load("Eplib");
@@ -187,13 +192,6 @@ namespace Event_Planner
             _CurrentType = InteractiveElement.IElementType.Pentagon;
         }
 
-        private void TentButton_Click(object sender, RoutedEventArgs e)
-        {
-            _MenuStyle = 1;
-            _CurrentType = InteractiveElement.IElementType.Tent;
-        }
-
-
         // https://userinterfacemaker.wordpress.com/2015/09/08/zooming-for-canvas-cwpf/
         private void DrawingCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -249,7 +247,12 @@ namespace Event_Planner
             PropTBoxColorG.Text = c.G.ToString();
             PropTBoxColorB.Text = c.B.ToString();
 
+            // Scale
             PropTBoxScale.Text = _IE.GetScale.ToString();
+
+            // Notes
+            PropTBoxNotes.Text = IE.GetInformation;
+
         }
 
         private void PropTBoxX_KeyUp(object sender, KeyEventArgs e)
@@ -295,17 +298,23 @@ namespace Event_Planner
 
         private void RGBBox(KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if(_IE != null)
             {
-                bool isNumericR = byte.TryParse(PropTBoxColorR.Text, out var r);
-                bool isNumericG = byte.TryParse(PropTBoxColorG.Text, out var g);
-                bool isNumericB = byte.TryParse(PropTBoxColorB.Text, out var b);
-
-                if (isNumericR && isNumericG && isNumericB)
+                if (!_IE.IsIcon)
                 {
-                    _IE.GetFill = new SolidColorBrush(Color.FromRgb(r, g, b));
-                    UpdateProperties(_IE);
-                    _IE.InvalidateVisual();
+                    if (e.Key == Key.Enter)
+                    {
+                        bool isNumericR = byte.TryParse(PropTBoxColorR.Text, out var r);
+                        bool isNumericG = byte.TryParse(PropTBoxColorG.Text, out var g);
+                        bool isNumericB = byte.TryParse(PropTBoxColorB.Text, out var b);
+
+                        if (isNumericR && isNumericG && isNumericB)
+                        {
+                            _IE.GetFill = new SolidColorBrush(Color.FromRgb(r, g, b));
+                            UpdateProperties(_IE);
+                            _IE.InvalidateVisual();
+                        }
+                    }
                 }
             }
         }
@@ -356,6 +365,7 @@ namespace Event_Planner
             }
         }
 
+        // https://msdn.microsoft.com/en-us/library/system.windows.forms.savefiledialog(v=vs.110).aspx
         private void Menu_Save_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
@@ -377,6 +387,7 @@ namespace Event_Planner
             }
         }
 
+        // https://msdn.microsoft.com/en-us/library/system.windows.forms.savefiledialog(v=vs.110).aspx
         private void Menu_Open_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
@@ -404,7 +415,7 @@ namespace Event_Planner
             {
                 double x = Math.Round(e.NewValue, 2);
 
-                _IE.SetSclae = x;
+                _IE.SetScale = x;
                 PropTBoxScale.Text = x.ToString();
             }
         }
@@ -434,7 +445,7 @@ namespace Event_Planner
                 }
 
                 SliderScale.Value = oVal;
-                _IE.SetSclae = oVal;
+                _IE.SetScale = oVal;
             }
         }
 
@@ -491,10 +502,12 @@ namespace Event_Planner
             {
                 string path = sfd.FileName;
 
+                // Save output code by
                 // Kris, StackOverflow.org
                 // https://stackoverflow.com/questions/8881865/saving-a-wpf-canvas-as-an-image
-                Transform tf = DrawingCanvas.LayoutTransform;
-                DrawingCanvas.LayoutTransform = null;
+
+                Vector vecPnt = (Vector)DrawingCanvas.GetType().GetProperty("VisualOffset", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(DrawingCanvas);
+
                 Size size = new Size(DrawingCanvas.Width, DrawingCanvas.Height);
 
                 RenderTargetBitmap rtb = new RenderTargetBitmap((int)DrawingCanvas.RenderSize.Width,
@@ -513,8 +526,151 @@ namespace Event_Planner
                 {
                     enc.Save(fs);
                 }
-                DrawingCanvas.LayoutTransform = tf;
+
+                //https://stackoverflow.com/questions/37968674/what-is-visualoffset | Sinatr
+                DrawingCanvas.GetType().GetProperty("VisualOffset",
+                                                    BindingFlags.NonPublic | BindingFlags.Instance).SetValue(DrawingCanvas, vecPnt);
             }
+        }
+
+        private void PropTBoxName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(_IE !=null)
+                _IE.SetName = PropTBoxName.Text;
+        }
+
+        private void PropTBoxName_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (_IE != null)
+                if (e.Key == Key.Enter)
+                    _IE.SetName = PropTBoxName.Text;
+        }
+
+        private void PropTBoxNotes_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_IE != null)
+                _IE.SetInformation = PropTBoxNotes.Text;
+        }
+
+        private void PropTBoxNotes_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (_IE != null)
+                if (e.Key == Key.Enter)
+                    _IE.SetInformation = PropTBoxNotes.Text;
+        }
+
+        private void CampingButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 1;
+            _CurrentType = InteractiveElement.IElementType.Camping;
+        }
+
+        private void InformationButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 1;
+            _CurrentType = InteractiveElement.IElementType.Information;
+        }
+
+        private void MedicalButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 1;
+            _CurrentType = InteractiveElement.IElementType.Medical;
+        }
+
+        private void WCRowButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 1;
+            _CurrentType = InteractiveElement.IElementType.WCRow;
+        }
+
+        private void WCSingleButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 1;
+            _CurrentType = InteractiveElement.IElementType.WCSingle;
+        }
+
+        private void ShrubsButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 2;
+            _CurrentType = InteractiveElement.IElementType.Shrubs;
+        }
+
+        private void TreesButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 2;
+            _CurrentType = InteractiveElement.IElementType.Trees;
+        }
+
+        private void BarriersButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 3;
+            _CurrentType = InteractiveElement.IElementType.Barriers;
+        }
+
+        private void CheckpointButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 3;
+            _CurrentType = InteractiveElement.IElementType.Checkpoint;
+        }
+
+        private void FencingButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 3;
+            _CurrentType = InteractiveElement.IElementType.Fencing;
+        }
+
+        private void FreeAreaButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 3;
+            _CurrentType = InteractiveElement.IElementType.FreeArea;
+        }
+
+        private void LightingButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 3;
+            _CurrentType = InteractiveElement.IElementType.Lighting;
+        }
+
+        private void PathButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 3;
+            _CurrentType = InteractiveElement.IElementType.Path;
+        }
+
+        private void RoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 3;
+            _CurrentType = InteractiveElement.IElementType.Road;
+        }
+
+        private void SeatingButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 3;
+            _CurrentType = InteractiveElement.IElementType.Seating;
+        }
+
+        private void Catering_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 4;
+            _CurrentType = InteractiveElement.IElementType.Catering;
+        }
+
+        private void DisplayButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 4;
+            _CurrentType = InteractiveElement.IElementType.Display;
+        }
+
+        private void MarqueeButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 4;
+            _CurrentType = InteractiveElement.IElementType.Marquee;
+        }
+
+        private void StageButton_Click(object sender, RoutedEventArgs e)
+        {
+            _MenuStyle = 4;
+            _CurrentType = InteractiveElement.IElementType.Stage;
         }
     }
 }

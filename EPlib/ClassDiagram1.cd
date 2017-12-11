@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EPlib.Drawable.InteractiveElement">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="EPlib.Drawable.InteractiveElement.IElementType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Drawable\InteractiveElement.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAQAIAII4gAAEAAlAAFEsoBAIAgYCJAAIBoAYgIABEA=</HashCode>
+      <FileName>Drawable\InteractiveElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Shapes.Hexagon">
+    <Position X="4.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Shapes\Hexagon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Shapes.Pentagon">
+    <Position X="8" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Shapes\Pentagon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Shapes.Rectangle">
+    <Position X="11.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Shapes\Rectangle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Shapes.Square">
+    <Position X="6.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Shapes\Square.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Shapes.Triangle">
+    <Position X="9.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Shapes\Triangle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Icons.Facillities.Camping">
+    <Position X="6.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Icons\Facillities\Camping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Icons.Facillities.Information">
+    <Position X="4.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Icons\Facillities\Information.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Icons.Facillities.Medical">
+    <Position X="8" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Icons\Facillities\Medical.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Icons.Facillities.WCRow">
+    <Position X="9.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Icons\Facillities\WCRow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EPlib.Drawable.Icons.Facillities.WCSingle">
+    <Position X="11.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Drawable\Icons\Facillities\WCSingle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

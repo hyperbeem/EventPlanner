@@ -19,7 +19,7 @@
                     <MenuItem x:Name="Menu_Export" Header="_Export" Click="Menu_Export_Click"></MenuItem>
                     <MenuItem x:Name="Menu_Close" Header="_Close" Click="Menu_Close_Click"/>
                 </MenuItem>
-                <MenuItem Header="_Canvas">
+                <MenuItem Header="_Create">
                     <MenuItem Header="_Primitive">
                         <MenuItem x:Name="HexagonButton" Header="_Hexagon" Click="HexagonButton_Click"/>
                         <MenuItem x:Name="PentagonButton" Header="_Pentagon" Click="PentagonButton_Click"/>
@@ -27,8 +27,32 @@
                         <MenuItem x:Name="SquareButton" Header="_Square" Click="SquareButton_Click"/>
                         <MenuItem x:Name="TriangleButton" Header="_Triangle" Click="TriangleButton_Click"/>
                     </MenuItem>
-                    <MenuItem Header="_Icons">
-                        <MenuItem x:Name="TentButton" Header="_Tent" Click="TentButton_Click"/>
+                    <MenuItem Header="_Facillities">
+                        <MenuItem x:Name="CampingButton" Header="_Camping" Click="CampingButton_Click"/>
+                        <MenuItem x:Name="InformationButton"  Header="_Information" Click="InformationButton_Click"/>
+                        <MenuItem x:Name="MedicalButton" Header="_Medical" Click="MedicalButton_Click"/>
+                        <MenuItem x:Name="WCRowButton" Header="_WCRow" Click="WCRowButton_Click"/>
+                        <MenuItem x:Name="WCSingleButton" Header="_WCSingle" Click="WCSingleButton_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="_Foliage">
+                        <MenuItem x:Name="ShrubsButton" Header="_Shrubs" Click="ShrubsButton_Click"/>
+                        <MenuItem x:Name="TreesButton" Header="_Trees" Click="TreesButton_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="_Layout">
+                        <MenuItem x:Name="BarriersButton" Header="_Barrier" Click="BarriersButton_Click"/>
+                        <MenuItem x:Name="CheckpointButton" Header="_CheckPoint" Click="CheckpointButton_Click"/>
+                        <MenuItem x:Name="FencingButton" Header="_Fencing" Click="FencingButton_Click"/>
+                        <MenuItem x:Name="FreeAreaButton" Header="_GrassLand" Click="FreeAreaButton_Click"/>
+                        <MenuItem x:Name="LightingButton" Header="_Lighting" Click="LightingButton_Click"/>
+                        <MenuItem x:Name="PathButton" Header="_Path" Click="PathButton_Click"/>
+                        <MenuItem x:Name="RoadButton" Header="_Raod" Click="RoadButton_Click"/>
+                        <MenuItem x:Name="SeatingButton" Header="_Seating" Click="SeatingButton_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="Stands">
+                        <MenuItem x:Name="Catering" Header="_Catering" Click="Catering_Click"/>
+                        <MenuItem x:Name="DisplayButton" Header="_Display" Click="DisplayButton_Click"/>
+                        <MenuItem x:Name="MarqueeButton" Header="_Marquee" Click="MarqueeButton_Click"/>
+                        <MenuItem x:Name="StageButton" Header="_Stage" Click="StageButton_Click"/>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Tools">
@@ -56,10 +80,11 @@
                     <RowDefinition Height="35*"/>
                     <RowDefinition Height="61*"/>
                     <RowDefinition Height="118*"/>
-                    <RowDefinition Height="445*"/>
+                    <RowDefinition Height="67*"/>
+                    <RowDefinition Height="378*" />
                 </Grid.RowDefinitions>
 
-                <TextBox x:Name="PropTBoxName" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Margin="10,10,0,0"/>
+                <TextBox x:Name="PropTBoxName" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Margin="10,10,0,0" LostFocus="PropTBoxName_LostFocus" KeyUp="PropTBoxName_KeyUp"/>
 
                 <Label x:Name="PropLableTransform" Content="Transform&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" FontWeight="Bold" Margin="0,6,0,0" Grid.Row="1" Width="68"/>
 
@@ -78,10 +103,12 @@
                 <Label x:Name="PropLableColorG" Content="G" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,62,0,0" Grid.Row="2" Height="26" Width="18"/>
                 <TextBox x:Name="PropTBoxColorB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Margin="32,92,0,0" Grid.Row="2" KeyUp="PropTBoxColorB_KeyUp"/>
 
-                <Label x:Name="PropLableSlider" Content="Scale" HorizontalAlignment="Left" Margin="2,10,0,0" Grid.Row="3" VerticalAlignment="Top" FontWeight="Bold"/>
-                <Slider x:Name="SliderScale" HorizontalAlignment="Left" Margin="10,36,0,0" Grid.Row="3" VerticalAlignment="Top" Minimum="0.1" Width="153" Value="1" ValueChanged="SliderScale_ValueChanged"/>
+                <Label x:Name="PropLableSlider" Content="Scale" HorizontalAlignment="Left" Margin="2,10,0,0" Grid.Row="3" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="39"/>
+                <Slider x:Name="SliderScale" HorizontalAlignment="Left" Margin="10,36,0,0" Grid.Row="3" VerticalAlignment="Top" Minimum="0.1" Width="153" Value="1" ValueChanged="SliderScale_ValueChanged" Height="18"/>
                 <TextBox x:Name="PropTBoxScale" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" Margin="168,33,0,0" Grid.Row="3" KeyUp="PropTBoxScale_KeyUp" LostFocus="PropTBoxScale_LostFocus"/>
 
+                <Label x:Name="PropLableNotes" Content="Notes" Margin="2,15,0,0" Grid.Row="4" FontWeight="Bold" HorizontalAlignment="Left" Width="45" Height="24" VerticalAlignment="Top" />
+                <TextBox x:Name="PropTBoxNotes" Height="119" Margin="2,39,15,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="4" LostFocus="PropTBoxNotes_LostFocus" KeyUp="PropTBoxNotes_KeyUp"/>
 
 
             </Grid>

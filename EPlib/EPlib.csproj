@@ -45,7 +45,25 @@
   <ItemGroup>
     <Compile Include="Application\InOut\StreamXML.cs" />
     <Compile Include="Application\Preferences\PreferencesManager.cs" />
-    <Compile Include="Drawable\Icons\Tent.cs" />
+    <Compile Include="Drawable\Icons\Facillities\Camping.cs" />
+    <Compile Include="Drawable\Icons\Facillities\Information.cs" />
+    <Compile Include="Drawable\Icons\Facillities\Medical.cs" />
+    <Compile Include="Drawable\Icons\Facillities\WCRow.cs" />
+    <Compile Include="Drawable\Icons\Facillities\WCSingle.cs" />
+    <Compile Include="Drawable\Icons\Foliage\Shrubs.cs" />
+    <Compile Include="Drawable\Icons\Foliage\Trees.cs" />
+    <Compile Include="Drawable\Icons\Layout\Barriers.cs" />
+    <Compile Include="Drawable\Icons\Layout\Checkpoint.cs" />
+    <Compile Include="Drawable\Icons\Layout\Fencing.cs" />
+    <Compile Include="Drawable\Icons\Layout\FreeArea.cs" />
+    <Compile Include="Drawable\Icons\Layout\Lighting.cs" />
+    <Compile Include="Drawable\Icons\Layout\Path.cs" />
+    <Compile Include="Drawable\Icons\Layout\Road.cs" />
+    <Compile Include="Drawable\Icons\Layout\Seating.cs" />
+    <Compile Include="Drawable\Icons\Stands\Display.cs" />
+    <Compile Include="Drawable\Icons\Stands\Catering.cs" />
+    <Compile Include="Drawable\Icons\Stands\Marquee.cs" />
+    <Compile Include="Drawable\Icons\Stands\Stage.cs" />
     <Compile Include="Drawable\InteractiveElement.cs" />
     <Compile Include="Drawable\SerialIE.cs" />
     <Compile Include="Drawable\Shapes\Hexagon.cs" />
@@ -61,7 +79,29 @@
     <Compile Include="Util\Logs\FileLogger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Drawable\Icons\Assets\Tent.png" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Drawable\Icons\Assets\Barrier.png" />
+    <Resource Include="Drawable\Icons\Assets\Camping.png" />
+    <Resource Include="Drawable\Icons\Assets\Catering.png" />
+    <Resource Include="Drawable\Icons\Assets\Checkpoint.png" />
+    <Resource Include="Drawable\Icons\Assets\Display.png" />
+    <Resource Include="Drawable\Icons\Assets\Fencing.png" />
+    <Resource Include="Drawable\Icons\Assets\FreeArea.png" />
+    <Resource Include="Drawable\Icons\Assets\Information.png" />
+    <Resource Include="Drawable\Icons\Assets\Lighting.png" />
+    <Resource Include="Drawable\Icons\Assets\Marquee.png" />
+    <Resource Include="Drawable\Icons\Assets\Medical.png" />
+    <Resource Include="Drawable\Icons\Assets\Path.png" />
+    <Resource Include="Drawable\Icons\Assets\Road.png" />
+    <Resource Include="Drawable\Icons\Assets\Seating.png" />
+    <Resource Include="Drawable\Icons\Assets\Shrub.png" />
+    <Resource Include="Drawable\Icons\Assets\Stage.png" />
+    <Resource Include="Drawable\Icons\Assets\Tree.png" />
+    <Resource Include="Drawable\Icons\Assets\WCRow.png" />
+    <Resource Include="Drawable\Icons\Assets\WCSingle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

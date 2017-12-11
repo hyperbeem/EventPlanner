@@ -56,7 +56,8 @@ namespace EPlib.Application.InOut
                 Stroke = ColorHelper.ExtractColor(IE.GetStroke),
                 Fill = ColorHelper.ExtractColor(IE.GetFill),
                 Count = IE.GetCount,
-                Name = IE.GetName
+                Name = IE.GetName,
+                Information = IE.GetInformation
             };
         }
 

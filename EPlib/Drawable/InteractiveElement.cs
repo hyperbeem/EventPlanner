@@ -24,18 +24,43 @@ namespace EPlib.Drawable
             Rectangle,
             Square,
             Triangle,
-            Tent
+            Tent,
+            Medical,
+            Information,
+            WCRow,
+            WCSingle,
+            Camping,
+            FreeArea,
+            Seating,
+            Lighting,
+            Checkpoint,
+            Barriers,
+            Fencing,
+            Path,
+            Road,
+            Shrubs,
+            Trees,
+            Marquee,
+            Display,
+            Stage,
+            Catering
         }
 
         protected readonly ILogger _logger;
 
         protected bool _IsIcon = false;
+
+        // Gets the Icon state of the object
         public bool IsIcon
         {
             get { return _IsIcon; }
         }
 
         protected IElementType _ThisType;
+
+        /// <summary>
+        /// Gets the type of object as a string
+        /// </summary>
         public string GetThisType
         {
             get { return _ThisType.ToString(); }
@@ -193,13 +218,31 @@ namespace EPlib.Drawable
         /// <summary>
         /// Sets the scale of the object
         /// </summary>
-        public double SetSclae
+        public double SetScale
         {
             set
             {
                 _Scale = value;
                 UpdateVisual();
             }
+        }
+
+        protected string _Information;
+
+        /// <summary>
+        /// Gets the information string of the object
+        /// </summary>
+        public string GetInformation
+        {
+            get { return _Information; }
+        }
+
+        /// <summary>
+        /// Sets the information string of the object
+        /// </summary>
+        public string SetInformation
+        {
+            set { _Information = value; }
         }
 
         public InteractiveElement(ILogger logger)
@@ -221,7 +264,18 @@ namespace EPlib.Drawable
 
         public virtual void UpdateVisual()
         {
+            using (StreamGeometryContext gc = _Geo.Open())
+            {
+                double s = GetScale;
+                gc.BeginFigure(new Point(-10.0d * s, -10.0d * s), true, true);
 
+                _PC = new PointCollection();
+                _PC.Add(new Point(10.0d * s, -10.0d * s));
+                _PC.Add(new Point(10.0d * s, 10.0d * s));
+                _PC.Add(new Point(-10.0d * s, 10.0d * s));
+
+                gc.PolyLineTo(_PC, true, true);
+            }
         }
 
         protected override void OnRender(DrawingContext dc)
@@ -250,5 +304,9 @@ namespace EPlib.Drawable
 
             base.OnMouseLeave(e);
         }
+    }
+
+    public class IE
+    {
     }
 }

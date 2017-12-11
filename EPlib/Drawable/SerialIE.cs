@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using EPlib.Drawable;
 using ES = EPlib.Drawable.Shapes;
-using EI = EPlib.Drawable.Icons;
+using EF = EPlib.Drawable.Icons.Facillities;
 using System.Windows;
 
 using EPlib.Util.Logs;
@@ -24,7 +24,7 @@ namespace EPlib.Drawable
         public long Count { get; set; }
         public String Name { get; set; }
         public double Scale { get; set; }
-
+        public string Information { get; set; }
         /// <summary>
         /// Loads all shapes from chosen file
         /// </summary>
@@ -52,15 +52,13 @@ namespace EPlib.Drawable
                 case InteractiveElement.IElementType.Hexagon:
                     _IE = new ES.Hexagon(new FileLogger(loggerPath));
                     break;
-                case InteractiveElement.IElementType.Tent:
-                    _IE = new EI.Tent(new FileLogger(loggerPath));
-                    break;
             }
 
             _IE.SetPoint = Point;
             _IE.SetCount = Count;
             _IE.SetName = Name;
-            _IE.SetSclae = Scale;
+            _IE.SetScale = Scale;
+            _IE.SetInformation = Information;
 
             TranslateTransform tt = new TranslateTransform(Point.X,Point.Y);
             _IE.RenderTransform = tt;
